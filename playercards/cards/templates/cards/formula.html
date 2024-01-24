@@ -1,0 +1,98 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BaseballStatCards - Our Formula</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+</head>
+<nav class="bg-white shadow-md py-4">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <a href="/" class="text-lg font-semibold text-gray-900 no-underline">BaseballStatCards</a>
+        <div class="hidden sm:flex sm:space-x-8">
+            <a href="/" class="text-indigo-600 font-semibold">Home</a>
+            <a href="{% url 'default-pitcher-detail' %}" class="text-gray-600 hover:text-indigo-600 transition duration-300">Pitchers</a>
+            <a href="{% url 'default-player-detail' %}" class="text-gray-600 hover:text-indigo-600 transition duration-300">Players</a>
+        </div>
+    </div>
+</nav>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <header class="bg-indigo-600 text-white text-center py-6">
+        <h1 class="text-4xl font-bold">The Formulas Explained</h1>
+    </header>
+    <main class="flex-grow container mx-auto p-6">
+        <section class="mb-10">
+            <h2 class="text-3xl font-semibold mb-4">Performance Rating (Pitcher)</h2>
+            <p class="text-md mb-2">The Performance Rating for pitchers is calculated based on various factors that contribute to their overall performance in games. Here's the breakdown:</p>
+            <pre class="bg-gray-200 p-4 rounded">
+wins * 1.5 + saves * 2 + games * 0.5 + games_started * 0.5 + innings_pitched * 0.2 + k_per_9 * 1
+            </pre>
+        </section>
+        <section class="mb-10">
+            <h2 class="text-3xl font-semibold mb-4">Efficiency Rating (Pitcher)</h2>
+            <p class="text-md mb-2">The Efficiency Rating for pitchers reflects their ability to prevent runs and is determined as follows:</p>
+            <pre class="bg-gray-200 p-4 rounded">
+bb_per_9 * -0.3 + hr_per_9 * -0.5 + era * -0.5
+            </pre>
+        </section>
+        <section class="mb-10">
+            <h2 class="text-3xl font-semibold mb-4">Net Rating (Pitcher)</h2>
+            <p class="text-md mb-2">The Net Rating combines both Performance and Efficiency ratings for a comprehensive score:</p>
+            <pre class="bg-gray-200 p-4 rounded">
+Performance Rating + Efficiency Rating
+            </pre>
+        </section>
+        <section class="mb-10">
+            <h2 class="text-3xl font-semibold mb-4">Offense Rating (Position Player)</h2>
+            <p class="text-md mb-2">The Offense Rating for position players is calculated based on their batting and base running performance. The formula takes into account various statistics to give a comprehensive view of a player's offensive capabilities:</p>
+            <div class="overflow-auto">
+                <pre class="bg-gray-200 p-4 rounded whitespace-pre-wrap">
+        home_runs * 2 + runs * 1 + runs_batted_in * 1 + stolen_bases * 1.5 - strikeout_percentage * 0.5 + isolated_power * 2 + avg * 100 + obp * 100 + slg * 100 + woba * 100 + wrc_plus * 0.5 + base_running * 0.5 + offensive_value * 1
+                </pre>
+            </div>
+        </section>
+        
+        
+        <section class="mb-10">
+            <h2 class="text-3xl font-semibold mb-4">Defense Rating (Position Player)</h2>
+            <p class="text-md mb-2">The Defense Rating for position players evaluates their defensive skills and contributions on the field. This rating is calculated as follows:</p>
+            <pre class="bg-gray-200 p-4 rounded">
+        defensive_value * 1
+            </pre>
+        </section>
+        
+        <section class="mb-10">
+            <h2 class="text-3xl font-semibold mb-4">Net Rating (Position Player)</h2>
+            <p class="text-md mb-2">The Net Rating for position players is the balance between their offensive and defensive performance, providing an overall evaluation:</p>
+            <pre class="bg-gray-200 p-4 rounded">
+        Offense Rating - Defense Rating
+            </pre>
+        </section>
+        <section class="mb-10">
+            <h2 class="text-3xl font-semibold mb-4">Understanding Rating Percentiles</h2>
+            <p class="text-md mb-2">In BaseballStatCards, we not only calculate various ratings for players but also determine how these ratings compare across the spectrum of all players. This comparative analysis is done using percentiles.</p>
+            <p class="text-md mb-2">
+                A percentile rank for a player's rating indicates what percentage of players are below that player in terms of the specific rating. For example, a player with a performance rating in the 90th percentile means that their performance rating is higher than 90% of the players. This approach helps in understanding a player's position relative to others, providing a more nuanced and comprehensive evaluation.
+            </p>
+            <p class="text-md">
+                This percentile calculation is applied to various ratings such as performance, efficiency, and net ratings for pitchers, as well as offense, defense, and net ratings for position players. By contextualizing individual ratings within the larger player database, percentiles offer a clear and insightful perspective on a player's capabilities and achievements.
+            </p>
+        </section>
+        <section class="mb-10">
+            <h2 class="text-3xl font-semibold mb-4">Understanding WAR Prediction</h2>
+            <p class="text-md mb-2">WAR predictions are made using hypothetical WAR stats for the players previous 2 seasons, and then their acutal WAR for 2023. Hypothetical stats are always +/-0.5 of the actual 2023 WAR.</p>
+        </section>
+    </main>
+    <footer class="bg-white shadow-inner py-4">
+        <div class="text-center">
+            <a href="https://dangrant6.netlify.app" class="text-indigo-600 hover:underline">Made by Daniel Grant</a>
+            <span class="text-gray-500 mx-3">|</span>
+            <a href="https://www.fangraphs.com" class="text-indigo-600 hover:underline">Data from FanGraphs</a>
+            <span class="text-gray-500 mx-3">|</span>
+            <a href="{% url 'formula_description' %}" class="text-indigo-600 hover:underline">Formula</a>
+        </div>
+    </footer>
+</body>
+</html>

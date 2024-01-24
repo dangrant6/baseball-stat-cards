@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ player.name }} Card</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+    <link href="{% static 'cards/css/card.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md py-4">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <a href="/" class="text-lg font-semibold text-gray-900 no-underline">BaseballStatCards</a>
+            <div class="hidden sm:flex sm:space-x-8">
+                <a href="/" class="text-indigo-600 font-semibold">Home</a>
+                <a href="{% url 'default-pitcher-detail' %}" class="text-gray-600 hover:text-indigo-600 transition duration-300">Pitchers</a>
+                <a href="{% url 'default-player-detail' %}" class="text-gray-600 hover:text-indigo-600 transition duration-300">Players</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="flex justify-center mt-10 mb-3 px-5">
+        <input type="search" id="search" placeholder="Enter Hitter Name"
+               class="w-full px-4 py-2 text-base text-gray-900 bg-white border border-gray-300 rounded-full focus:border-blue-600 focus:outline-none"/>
+    </div>
+
+    <!-- Player Card -->
+    <div class="container mx-auto my-10 p-6 bg-white rounded-lg shadow-xl">
+        <div class="text-center">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4">{{ player.name }}</h2>
+            <div class="flex flex-wrap items-center justify-center">
+                <!-- SVG for Offense Rating -->
+                <div class="rating-circle mx-3">
+                    <svg viewBox="0 0 36 36" class="circular-chart blue">
+                        <path class="circle-bg"
+                            d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none" stroke="#eee" stroke-width="3.8"/>
+                        <path class="circle"
+                            stroke-dasharray="{{ player.offense_rating_percentile }}, 100"
+                            d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none" stroke="#3e98c7" stroke-width="2.8" stroke-linecap="round"/>
+                        <text x="18" y="22" class="percentage" style="font-size: 8px;" dominant-baseline="middle" text-anchor="middle">{{ player.offense_rating_percentile|floatformat:1 }}</text>
+                    </svg>
+                    <span class="rating-label">Offense Rating</span>
+                </div>
+                <!-- SVG for Defense Rating -->
+                <div class="rating-circle mx-3">
+                    <svg viewBox="0 0 36 36" class="circular-chart red">
+                        <path class="circle-bg"
+                            d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none" stroke="#eee" stroke-width="3.8"/>
+                        <path class="circle"
+                            stroke-dasharray="{{ player.defense_rating_percentile }}, 100"
+                            d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none" stroke="#dc3545" stroke-width="2.8" stroke-linecap="round"/>
+                        <text x="18" y="22" class="percentage" style="font-size: 8px;" dominant-baseline="middle" text-anchor="middle">{{ player.defense_rating_percentile|floatformat:1 }}</text>
+                    </svg>
+                    <span class="rating-label">Defense Rating</span>
+                </div>
+                <!-- SVG for Net Rating -->
+                <div class="rating-circle mx-3">
+                    <svg viewBox="0 0 36 36" class="circular-chart green">
+                        <path class="circle-bg"
+                            d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none" stroke="#eee" stroke-width="3.8"/>
+                        <path class="circle"
+                            stroke-dasharray="{{ player.net_rating_percentile }}, 100"
+                            d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none" stroke="#28a745" stroke-width="2.8" stroke-linecap="round"/>
+                        <text x="18" y="22" class="percentage" style="font-size: 8px;" dominant-baseline="middle" text-anchor="middle">{{ player.net_rating_percentile|floatformat:1 }}</text>
+                    </svg>
+                    <span class="rating-label">Net Rating</span>
+                </div>
+                <div class="chart-container mt-8" style="position: relative; height:40vh; width:80vw">
+                    <canvas id="warChart"></canvas>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Search Suggest Script -->
+    <script type="text/javascript">
+        $(function() {
+            $("#search").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "{% url 'player-autocomplete' %}",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function(data) {
+                            response(data);
+                        }
+                    });
+                },
+                minLength: 2,
+                select: function(event, ui) {
+                    // Redirect to the player's detail page when a name is selected
+                    window.location.href = ui.item.url;
+                }
+            });
+        });
+        </script>
+        <!-- Chart Script -->
+        <script>
+            var ctx = document.getElementById('warChart').getContext('2d');
+            var warChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Hypo: 2021', 'Hypo: 2022', 'Real: 2023', 'Predicted 2024'],
+                    datasets: [{
+                        label: 'WAR',
+                        data: [{{ player.war_year_before_last }}, {{ player.war_last_year }}, {{ player.war }}, {{ player.predicted_war }}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        </script>  
+        <footer class="bg-white shadow-inner py-4">
+            <div class="text-center">
+                <a href="https://dangrant6.netlify.app" class="text-indigo-600 hover:underline">Made by Daniel Grant</a>
+                <span class="text-gray-500 mx-3">|</span>
+                <a href="https://www.fangraphs.com" class="text-indigo-600 hover:underline">Data from FanGraphs</a>
+                <span class="text-gray-500 mx-3">|</span>
+                <a href="{% url 'formula_description' %}" class="text-indigo-600 hover:underline">Formula</a>
+            </div>
+        </footer>        
+</body>
+</html>
+

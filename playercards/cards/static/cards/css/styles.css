@@ -1,0 +1,151 @@
+/* Include Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
+/* Base styles to make the page look nicer */
+body {
+    font-family: 'Open+Sans', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Card Styles */
+
+
+.player-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.player-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.player-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    display: block;
+    border: 3px solid #eee;
+}
+
+.player-name {
+    font-size: 1.8em;
+    margin: 0;
+    font-weight: 600;
+}
+
+.player-team {
+    color: #777;
+    font-size: 1em;
+}
+
+.player-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+}
+
+.stat-label {
+    font-size: 0.9em;
+    color: #777;
+    font-weight: 400;
+}
+
+/* Styles for rating circles */
+.rating-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #4caf50 0%, 
+        #4caf50 65%, 
+        #ddd 65%, 
+        #ddd 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    position: relative;
+    border: 3px solid #eee;
+}
+
+.rating-number {
+    position: absolute;
+    font-size: 2em;
+    color: #333;
+    font-weight: 700;
+}
+
+.rating-label {
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.9em;
+    color: #777;
+    font-weight: 400;
+}
+
+/* Add a responsive grid layout for multiple cards */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 20px;
+    padding: 20px;
+}
+
+/* Additional global styles and typography for better appearance */
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+    font-weight: 700;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Button styles */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+

@@ -1,0 +1,81 @@
+/* Base styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1a202c;
+    color: #fff;
+}
+
+/* Navigation Bar */
+.navbar, .nav-link {
+    padding: 0 20px;
+    text-decoration: none;
+    color: #fff;
+}
+
+.nav-link:hover {
+    text-decoration: none;
+}
+
+.nav-link.active {
+    font-weight: bold;
+}
+
+/* Player card */
+.player-card {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: 0.5rem;
+}
+
+/* Ratings and chart */
+.rating-circle {
+    text-align: center;
+    width: 150px;
+    height: 150px;
+    margin: 1rem;
+}
+
+.circle-bg {
+    fill: none;
+    stroke: #4a5568;
+}
+
+.circle {
+    fill: none;
+    stroke-width: 2.8;
+    stroke-linecap: round;
+}
+
+.percentage {
+    font-size: 0.5rem;
+    fill: #030000;
+}
+
+.rating-label {
+    display: block;
+    margin-top: 0.5rem;
+    color: #000000;
+    font-size: 1rem;
+}
+
+/* Search input */
+.search-input {
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 9999px;
+}
+
+.search-input:focus {
+    border-color: #3182ce;
+}
+
+/* Utility classes and responsive design */
+@media (min-width: 768px) {
+    .rating-circle {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .percentage {
+        font-size: 16px;
+    }
+}

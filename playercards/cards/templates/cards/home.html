@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Cards Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-gray-100 flex flex-col h-screen justify-between">
+    <nav class="bg-white shadow-md py-4">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <a href="/" class="text-lg font-semibold text-gray-900 no-underline">BaseballStatCards</a>
+            <div class="hidden sm:flex sm:space-x-8">
+                <a href="/" class="text-indigo-600 font-semibold">Home</a>
+                <a href="{% url 'default-pitcher-detail' %}" class="text-gray-600 hover:text-indigo-600 transition duration-300">Pitchers</a>
+                <a href="{% url 'default-player-detail' %}" class="text-gray-600 hover:text-indigo-600 transition duration-300">Players</a>
+            </div>
+        </div>
+    </nav>
+    <header class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white text-center py-20">
+        <h1 class="text-4xl font-bold">Welcome to BaseballStatCards!</h1>
+    </header>
+    <section class="text-center px-4 py-8">
+        <h2 class="text-2xl font-semibold mb-4">Discover the World of Baseball Stats</h2>
+        <p class="text-md text-gray-700 max-w-2xl mx-auto">
+            BaseballStatCards hosts Player Cards for both Pitchers and Position Players. Each card contains a player's ratings for the past 3 seasons cumulatively. The ratings are based on the player's statistics from FanGraphs. The ratings are calculated using a formula that I created. Ratings can be used for Fantasy purposes.<br><br>
+        </p>
+    </section>
+    <section class="flex justify-center items-center flex-wrap gap-4 p-8">
+        <a href="{% url 'default-pitcher-detail' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+            Pitchers Cards
+        </a>
+        <a href="{% url 'default-player-detail' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+            Position Players Cards
+        </a>
+    </section>
+    <footer class="bg-white shadow-inner py-4">
+        <div class="text-center">
+            <a href="https://dangrant6.netlify.app" class="text-indigo-600 hover:underline">Made by Daniel Grant</a>
+            <span class="text-gray-500 mx-3">|</span>
+            <a href="https://www.fangraphs.com" class="text-indigo-600 hover:underline">Data from FanGraphs</a>
+            <span class="text-gray-500 mx-3">|</span>
+            <a href="{% url 'formula_description' %}" class="text-indigo-600 hover:underline">Formula</a>
+        </div>
+    </footer>
+</body>
+</html>
