@@ -12,11 +12,13 @@ from .views import (
     player_autocomplete,
     pitcher_autocomplete,
     formula_description,
+    health_check,
 )
 
 router = DefaultRouter()
 router.register(r'positionplayers', PositionPlayerViewSet)
 router.register(r'pitchers', PitcherViewSet)
+# router.register(r'health-check', health_check)
 
 urlpatterns = [
     path('', home, name='home'),
@@ -28,4 +30,5 @@ urlpatterns = [
     path('player-autocomplete/', player_autocomplete, name='player-autocomplete'),
     path('pitcher-autocomplete/', pitcher_autocomplete, name='pitcher-autocomplete'),
     path('formula/', formula_description, name='formula_description'),
+    # path('api/health-check', health_check, name='health-check'),
 ]

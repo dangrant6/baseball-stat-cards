@@ -3,7 +3,7 @@ from .models import PositionPlayer, Pitcher
 from .serializer import PositionPlayerSerializer, PitcherSerializer
 from rest_framework import viewsets
 from django.views.generic import DetailView
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.urls import reverse
 import joblib
 
@@ -91,3 +91,6 @@ def pitcher_autocomplete(request):
 
 def formula_description(request):
     return render(request, 'cards/formula.html')
+
+def health_check(request):
+    return HttpResponse("OK")

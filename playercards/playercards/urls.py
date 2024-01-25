@@ -27,6 +27,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('api/', include(router.urls)),
     path('cards/', include('cards.urls')),
+    path('api/health-check', views.health_check, name='health-check'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
